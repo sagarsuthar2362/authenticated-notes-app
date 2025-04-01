@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -51,43 +51,59 @@ const Signup = () => {
   };
 
   return (
-    <motion.div className="py-5">
-      <h1 className="text-center text-3xl">Signup</h1>
-      <div className="flex flex-col px-5 py-2 space-y-4">
-        <input
-          type="text"
-          placeholder="Enter Username"
-          className="p-2 outline-none border border-gray-300 rounded"
-          name="username"
-          onChange={(e) => handleChange(e)}
-          value={userDetails.username}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Enter email"
-          className="p-2 outline-none border border-gray-300 rounded"
-          name="email"
-          onChange={(e) => handleChange(e)}
-          value={userDetails.email}
-          required
-        />
-        <input
-          type="password"
-          placeholder="********"
-          className="p-2 outline-none border border-gray-300 rounded"
-          name="password"
-          onChange={(e) => handleChange(e)}
-          value={userDetails.password}
-          required
-        />
+    <div className="pt-20">
+      <motion.div
+        className="max-w-md mx-auto py-5 bg-white rounded-lg shadow-lg"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        >
+        <h1 className="text-center text-3xl">Signup</h1>
+        <div className="flex flex-col px-5 py-2 space-y-4">
+          <input
+            type="text"
+            placeholder="Enter Username"
+            className="p-2 outline-none border border-gray-300 rounded"
+            name="username"
+            onChange={(e) => handleChange(e)}
+            value={userDetails.username}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Enter email"
+            className="p-2 outline-none border border-gray-300 rounded"
+            name="email"
+            onChange={(e) => handleChange(e)}
+            value={userDetails.email}
+            required
+          />
+          <input
+            type="password"
+            placeholder="********"
+            className="p-2 outline-none border border-gray-300 rounded"
+            name="password"
+            onChange={(e) => handleChange(e)}
+            value={userDetails.password}
+            required
+          />
 
-        {error && <p className="text-red-500">{error}</p>}
-        <button className="bg-blue-500 p-2 rounded" onClick={handleSignup}>
-          Create Account
-        </button>
-      </div>
-    </motion.div>
+          {error && <p className="text-red-500">{error}</p>}
+          <button
+            className="bg-blue-500 p-2 rounded text-white"
+            onClick={handleSignup}
+          >
+            Create Account
+          </button>
+
+          <div className="mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600">
+              Login
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 };
 
