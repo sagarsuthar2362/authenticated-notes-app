@@ -61,7 +61,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const note = await Note.findOneAndDelete({
       _id: req.params.id,
-      userId: req.userId, // Sirf apna note delete kar sake
+      userId: req.userId, 
     });
     if (!note) return res.status(404).json({ message: "Note not found" });
     res.json({ message: "Note deleted" });

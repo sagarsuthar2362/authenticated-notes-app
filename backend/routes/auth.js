@@ -6,7 +6,7 @@ import User from "../models/user.js";
 const router = express.Router();
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers["authorization"]; 
+  const token = req.headers["authorization"];
   if (!token) return res.status(401).json({ error: "No token" });
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) return res.status(401).json({ error: "Invalid token" });
@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
 
 router.post("/signup", async (req, res) => {
   try {
-    const { username,email, password } = req.body;
+    const { username, email, password } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already registered" });
@@ -29,7 +29,7 @@ router.post("/signup", async (req, res) => {
       password: hashedPassword,
     });
     const token = jwt.sign({ id: createdUser._id }, process.env.JWT_SECRET_KEY);
-    res.status(201).json({ token }); 
+    res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: "Cannot create user server error" });
   }
