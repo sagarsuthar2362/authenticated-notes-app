@@ -41,7 +41,7 @@ Follow these steps to run the project locally:
 ### Installation
 1. **Clone the Repository**:
    ```bash
-   git clone [<your-repo-url>](https://github.com/sagarsuthar2362/authenticated-notes-ap)
+   git clone https://github.com/sagarsuthar2362/authenticated-notes-app
    cd authenticated-notes-app
 
 
