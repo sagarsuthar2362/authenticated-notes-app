@@ -29,7 +29,9 @@ const Dashboard = () => {
     }
 
     axios
-      .get("http://localhost:3000/api/auth/me", { headers: { Authorization: token } })
+      .get("http://localhost:3000/api/auth/me", {
+        headers: { Authorization: token },
+      })
       .then((res) => setUser(res.data))
       .catch(() => {
         localStorage.removeItem("token");
@@ -37,11 +39,14 @@ const Dashboard = () => {
       });
 
     axios
-      .get("http://localhost:3000/api/notes", { headers: { Authorization: token } })
+      .get("http://localhost:3000/api/notes", {
+        headers: { Authorization: token },
+      })
       .then((res) => setNotes(res.data))
       .catch((err) => console.log(err));
   }, [navigate]);
 
+  // function that handles note creation
   const handleCreateNote = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -55,12 +60,17 @@ const Dashboard = () => {
     }
   };
 
+  // function that handles note update
   const handleUpdateNote = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.put(`http://localhost:3000/api/notes/${id}`, editNote, {
-        headers: { Authorization: token },
-      });
+      const res = await axios.put(
+        `http://localhost:3000/api/notes/${id}`,
+        editNote,
+        {
+          headers: { Authorization: token },
+        }
+      );
       setNotes(notes.map((note) => (note._id === id ? res.data : note)));
       setEditNote(null);
     } catch (error) {
@@ -68,6 +78,7 @@ const Dashboard = () => {
     }
   };
 
+  // function that handles note deletion
   const handleDeleteNote = async (id) => {
     const token = localStorage.getItem("token");
     try {
@@ -86,22 +97,32 @@ const Dashboard = () => {
   };
 
   const handleDragEnd = (event, info, noteId) => {
-    console.log(`Note ${noteId} dragged to x: ${info.point.x}, y: ${info.point.y}`);
+    console.log(
+      `Note ${noteId} dragged to x: ${info.point.x}, y: ${info.point.y}`
+    );
   };
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`min-h-screen flex ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}
+      className={`min-h-screen flex ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+      }`}
     >
       {/* Sidebar */}
-      <div className={`w-64 p-4 ${darkMode ? "bg-gray-800" : "bg-gray-800 text-white"}`}>
+      <div
+        className={`w-64 p-4 ${
+          darkMode ? "bg-gray-800" : "bg-gray-800 text-white"
+        }`}
+      >
         <h2 className="text-2xl mb-6">Notes App</h2>
         <ul>
           <li className="mb-4">Dashboard</li>
           <li className="mb-4">Notes</li>
-          <li onClick={handleLogout} className="cursor-pointer">Logout</li>
+          <li onClick={handleLogout} className="cursor-pointer">
+            Logout
+          </li>
         </ul>
       </div>
 
@@ -112,7 +133,9 @@ const Dashboard = () => {
           <div className="space-x-2">
             <button
               onClick={toggleDarkMode}
-              className={`p-2 rounded ${darkMode ? "bg-yellow-500" : "bg-gray-500"} text-white`}
+              className={`p-2 rounded ${
+                darkMode ? "bg-yellow-500" : "bg-gray-500"
+              } text-white`}
             >
               {darkMode ? "Light Mode" : "Dark Mode"}
             </button>
@@ -130,15 +153,25 @@ const Dashboard = () => {
           <input
             type="text"
             placeholder="Title"
-            className={`p-2 border rounded w-full mb-2 ${darkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-black border-gray-300"}`}
+            className={`p-2 border rounded w-full mb-2 ${
+              darkMode
+                ? "bg-gray-700 text-white border-gray-600"
+                : "bg-white text-black border-gray-300"
+            }`}
             value={newNote.title}
             onChange={(e) => setNewNote({ ...newNote, title: e.target.value })}
           />
           <textarea
             placeholder="Content"
-            className={`p-2 border rounded w-full mb-2 ${darkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-black border-gray-300"}`}
+            className={`p-2 border rounded w-full mb-2 ${
+              darkMode
+                ? "bg-gray-700 text-white border-gray-600"
+                : "bg-white text-black border-gray-300"
+            }`}
             value={newNote.content}
-            onChange={(e) => setNewNote({ ...newNote, content: e.target.value })}
+            onChange={(e) =>
+              setNewNote({ ...newNote, content: e.target.value })
+            }
           />
           <button
             onClick={handleCreateNote}
@@ -153,11 +186,22 @@ const Dashboard = () => {
           {notes.map((note) => (
             <motion.div
               key={note._id}
-              className={`p-4 rounded-lg shadow ${darkMode ? "bg-gray-800 text-white" : "bg-white text-black"}`}
+              className={`p-4 rounded-lg shadow ${
+                darkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+              }`}
               drag // Enable dragging
-              dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }} // Drag limits
+              dragConstraints={{
+                left: -100,
+                right: 100,
+                top: -100,
+                bottom: 100,
+              }} // Drag limits
               whileHover={{ scale: 1.05 }} // Hover effect
-              whileDrag={{ scale: 1.1, rotate: 2, boxShadow: "0px 10px 20px rgba(0,0,0,0.3)" }} // Drag effect
+              whileDrag={{
+                scale: 1.1,
+                rotate: 2,
+                boxShadow: "0px 10px 20px rgba(0,0,0,0.3)",
+              }} // Drag effect
               onDragEnd={(event, info) => handleDragEnd(event, info, note._id)} // Drag end handler
               dragElastic={0.2} // Smooth drag feel
             >
@@ -166,13 +210,25 @@ const Dashboard = () => {
                   <input
                     type="text"
                     value={editNote.title}
-                    onChange={(e) => setEditNote({ ...editNote, title: e.target.value })}
-                    className={`p-2 border rounded w-full mb-2 ${darkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-black border-gray-300"}`}
+                    onChange={(e) =>
+                      setEditNote({ ...editNote, title: e.target.value })
+                    }
+                    className={`p-2 border rounded w-full mb-2 ${
+                      darkMode
+                        ? "bg-gray-700 text-white border-gray-600"
+                        : "bg-white text-black border-gray-300"
+                    }`}
                   />
                   <textarea
                     value={editNote.content}
-                    onChange={(e) => setEditNote({ ...editNote, content: e.target.value })}
-                    className={`p-2 border rounded w-full mb-2 ${darkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-black border-gray-300"}`}
+                    onChange={(e) =>
+                      setEditNote({ ...editNote, content: e.target.value })
+                    }
+                    className={`p-2 border rounded w-full mb-2 ${
+                      darkMode
+                        ? "bg-gray-700 text-white border-gray-600"
+                        : "bg-white text-black border-gray-300"
+                    }`}
                   />
                   <button
                     onClick={() => handleUpdateNote(note._id)}
